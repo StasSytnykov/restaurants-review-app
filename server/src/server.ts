@@ -98,7 +98,8 @@ app.put("/api/v1/restaurants/:id", async (req: Request, res: Response) => {
 
 app.delete("/api/v1/restaurants/:id", async (req: Request, res: Response) => {
   try {
-    const query = "DELETE FROM restaurant WHERE restaurant_uid = $1 RETURNING *";
+    const query =
+      "DELETE FROM restaurant WHERE restaurant_uid = $1 RETURNING *";
     const results = await pool.query(query, [req.params.id]);
 
     res.status(200).json({
