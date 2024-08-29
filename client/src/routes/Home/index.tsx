@@ -1,7 +1,15 @@
+import { Header } from "@/components/Header";
+import { NewRestaurantPanel } from "@/components/NewRestaurantPanel";
+
 export const Home = () => {
   return (
-    <section>
-      <h1>Home page</h1>
-    </section>
+    <>
+      <Header />
+      <main>
+        <section>
+          <NewRestaurantPanel />
+        </section>
+      </main>
+    </>
   );
 };
