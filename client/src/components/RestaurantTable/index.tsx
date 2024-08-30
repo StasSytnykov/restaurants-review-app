@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button.tsx";
-import { getRestaurants } from "@/api/getRestaurants.ts";
+import { getRestaurants } from "@/api/restaurantsAPI.ts";
 import { DeleteWarning } from "@/components/DeleteWarning";
 import { useRestaurantsStore } from "@/store/restaurants.tsx";
 import { useEffect } from "react";

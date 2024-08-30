@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { addRestaurant } from "@/api/addRestaurant.ts";
 import { Restaurant } from "@/Types";
 import { Button } from "@/components/ui/button.tsx";
 import { Loader2 } from "lucide-react";
+import { addRestaurant } from "@/api/restaurantsAPI.ts";
 import { InputWithLabel } from "@/components/InputWithLabel";
 import {
   Select,

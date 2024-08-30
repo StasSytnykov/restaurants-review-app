@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { deleteRestaurant } from "@/api/deleteRestaurant.ts";
-import { Restaurant } from "@/Types";
+import { useState } from "react";
+import { deleteRestaurant } from "@/api/restaurantsAPI.ts";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,8 +14,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { useState } from "react";
 import { useRestaurantsStore } from "@/store/restaurants.tsx";
+import { Restaurant } from "@/Types";
 
 interface DeleteWarningProps {
   restaurantId: string;
