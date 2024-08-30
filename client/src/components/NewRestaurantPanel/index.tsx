@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { addRestaurants } from "@/api/addRestaurant.ts";
+import { addRestaurant } from "@/api/addRestaurant.ts";
 import { Restaurant } from "@/Types";
 import { Button } from "@/components/ui/button.tsx";
 import { Loader2 } from "lucide-react";
@@ -27,7 +27,7 @@ export const NewRestaurantPanel = () => {
       location,
       price_range,
     }: Omit<Restaurant, "restaurant_uid">) => {
-      return addRestaurants(name, location, price_range);
+      return addRestaurant(name, location, price_range);
     },
     onSuccess: () => {
       toast.success("You added restaurant successfully!");

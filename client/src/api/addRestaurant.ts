@@ -1,18 +1,11 @@
 import axiosRestaurant from "@/api/axiosRestaurant.ts";
-import { Restaurant } from "@/Types";
+import { AddDeleteRestaurant } from "@/Types";
 
-interface AddRestaurant {
-  status: string;
-  data: {
-    restaurant: Restaurant;
-  };
-}
-
-export const addRestaurants = async (
+export const addRestaurant = async (
   name: string,
   location: string,
   price_range: number,
-): Promise<AddRestaurant> => {
+): Promise<AddDeleteRestaurant> => {
   const response = await axiosRestaurant.post("", {
     name,
     location,

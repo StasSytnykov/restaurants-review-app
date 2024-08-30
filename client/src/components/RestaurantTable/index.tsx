@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button.tsx";
 import { getRestaurants } from "@/api/getRestaurants.ts";
+import { DeleteWarning } from "@/components/DeleteWarning";
 
 export const RestaurantTable = () => {
   const {
@@ -36,20 +37,28 @@ export const RestaurantTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {isError && <TableRow>{error.message}</TableRow>}
-        {isPending && <div className="w-full">Loading...</div>}
+        {isError && (
+          <TableRow>
+            <TableCell>{error.message}</TableCell>
+          </TableRow>
+        )}
+        {isPending && (
+          <TableRow className="w-full">
+            <TableCell>Loading...</TableCell>
+          </TableRow>
+        )}
         {restaurants &&
           restaurants.data.restaurants.map((restaurant) => (
-            <TableRow>
+            <TableRow key={restaurant.restaurant_uid}>
               <TableCell className="font-medium">{restaurant.name}</TableCell>
               <TableCell>{restaurant.location}</TableCell>
-              <TableCell>{restaurant.price_range}</TableCell>
+              <TableCell>{"$".repeat(restaurant.price_range)}</TableCell>
               <TableCell>Rating</TableCell>
               <TableCell>
                 <Button variant="secondary">Update</Button>
               </TableCell>
               <TableCell>
-                <Button variant="destructive">Delete</Button>
+                <DeleteWarning restaurantId={restaurant.restaurant_uid} />
               </TableCell>
             </TableRow>
           ))}

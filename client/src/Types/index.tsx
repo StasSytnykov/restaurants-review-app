@@ -4,3 +4,10 @@ export interface Restaurant {
     location: string;
     price_range: number;
 }
+
+export interface AddDeleteRestaurant {
+  status: string;
+  data: {
+    restaurant: Restaurant;
+  };
+}
