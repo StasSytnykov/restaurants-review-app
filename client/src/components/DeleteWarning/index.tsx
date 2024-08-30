@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { deleteRestaurant } from "@/api/deleteRestaurant.ts";
 import { Restaurant } from "@/Types";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/alert-dialog.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useState } from "react";
+import { useRestaurantsStore } from "@/store/restaurants.tsx";
 
 interface DeleteWarningProps {
   restaurantId: string;
@@ -22,14 +23,16 @@ interface DeleteWarningProps {
 
 export const DeleteWarning = ({ restaurantId }: DeleteWarningProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const queryClient = useQueryClient();
+  const removeRestaurant = useRestaurantsStore(
+    (state) => state.removeRestaurant,
+  );
   const { mutate, isPending } = useMutation({
     mutationFn: ({ restaurant_uid }: Pick<Restaurant, "restaurant_uid">) => {
       return deleteRestaurant(restaurant_uid);
     },
     onSuccess: () => {
       toast.success("You deleted restaurant successfully!");
-      queryClient.invalidateQueries({ queryKey: ["restaurants"] });
+      removeRestaurant(restaurantId);
     },
   });
 

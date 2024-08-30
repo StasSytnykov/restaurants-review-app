@@ -11,17 +11,22 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { getRestaurants } from "@/api/getRestaurants.ts";
 import { DeleteWarning } from "@/components/DeleteWarning";
+import { useRestaurantsStore } from "@/store/restaurants.tsx";
+import { useEffect } from "react";
 
 export const RestaurantTable = () => {
-  const {
-    data: restaurants,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
+  const { restaurants, setRestaurants } = useRestaurantsStore((state) => state);
+
+  const { data, isPending, isError, error } = useQuery({
     queryKey: ["restaurants"],
     queryFn: getRestaurants,
   });
+
+  useEffect(() => {
+    if (data) {
+      setRestaurants(data.data.restaurants);
+    }
+  }, [data]);
 
   return (
     <Table className="mx-auto w-2/4 mt-8">
@@ -48,7 +53,7 @@ export const RestaurantTable = () => {
           </TableRow>
         )}
         {restaurants &&
-          restaurants.data.restaurants.map((restaurant) => (
+          restaurants.map((restaurant) => (
             <TableRow key={restaurant.restaurant_uid}>
               <TableCell className="font-medium">{restaurant.name}</TableCell>
               <TableCell>{restaurant.location}</TableCell>
