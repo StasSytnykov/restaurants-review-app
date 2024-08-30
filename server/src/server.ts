@@ -1,12 +1,13 @@
 import "dotenv/config";
 import express, { Request, Response } from "express";
+import cors from "cors";
 import morgan from "morgan";
 import pool from "../db";
 
 const app = express();
 
+app.use(cors());
 app.use(morgan("dev"));
-
 app.use(express.json());
 
 app.get("/api/v1/restaurants", async (req: Request, res: Response) => {
@@ -56,7 +57,6 @@ app.post("/api/v1/restaurants", async (req: Request, res: Response) => {
       req.body.location,
       req.body.price_range,
     ]);
-    console.log(results);
 
     res.status(201).json({
       status: "success",
