@@ -11,7 +11,7 @@ interface AddRestaurant {
 export const addRestaurants = async (
   name: string,
   location: string,
-  price_range: string,
+  price_range: number,
 ): Promise<AddRestaurant> => {
   const response = await axiosRestaurant.post("", {
     name,
