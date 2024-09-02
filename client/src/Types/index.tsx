@@ -13,7 +13,7 @@ export interface AddDeleteRestaurant {
 }
 
 export interface Review {
-  id: number;
+  id: string;
   restaurant_id: string;
   name: string;
   review: string;

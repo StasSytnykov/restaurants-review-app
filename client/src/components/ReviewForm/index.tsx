@@ -17,18 +17,51 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Review } from "@/Types";
+import { toast } from "react-toastify";
+import { addReview } from "@/api/reviewsAPI.ts";
 
-export function ReviewForm() {
+interface ReviewFormProps {
+  restaurantId: string;
+}
+
+export const ReviewForm = ({ restaurantId }: ReviewFormProps) => {
   const [rating, setRating] = useState("");
   const [name, setName] = useState("");
   const [review, setReview] = useState("");
 
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({
+      name,
+      review,
+      rating,
+      restaurant_id,
+    }: Omit<Review, "id">) => {
+      return addReview(restaurant_id, name, review, rating);
+    },
+    onSuccess: () => {
+      toast.success("You added review successfully!");
+      queryClient.invalidateQueries({ queryKey: ["restaurant"] });
+    },
+  });
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    mutate({
+      name,
+      review,
+      rating: Number(rating),
+      restaurant_id: restaurantId,
+    });
+
     setRating("");
     setName("");
     setReview("");
   };
+
+  if (isPending) return <div>Loading...</div>;
 
   return (
     <Card className="w-full max-w-lg mx-auto">
@@ -36,7 +69,7 @@ export function ReviewForm() {
         <CardTitle>Leave a Review</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} id="reviewForm">
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="rating">Rating</Label>
@@ -85,8 +118,10 @@ export function ReviewForm() {
         >
           Clear
         </Button>
-        <Button type="submit">Submit Review</Button>
+        <Button type="submit" form="reviewForm">
+          Submit Review
+        </Button>
       </CardFooter>
     </Card>
   );
-}
+};
