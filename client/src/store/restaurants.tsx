@@ -7,7 +7,7 @@ interface RestaurantsStore {
   removeRestaurant: (restaurantId: string) => void;
   updateRestaurant: (
     restaurantId: string,
-    updatedRestaurant: Restaurant,
+    updatedRestaurant: Omit<Restaurant, "restaurant_uid">,
   ) => void;
 }
 
@@ -21,12 +21,14 @@ export const useRestaurantsStore = create<RestaurantsStore>()((set) => ({
       ),
     })),
   updateRestaurant: (restaurantId, updatedRestaurant) =>
-    set((state) => ({
-      restaurants: state.restaurants.map((restaurant) => {
-        if (restaurantId === restaurant.restaurant_uid) {
-          return { ...restaurant, updatedRestaurant };
-        }
-        return restaurant;
-      }),
-    })),
+    set((state) => {
+      return {
+        restaurants: state.restaurants.map((restaurant) => {
+          if (restaurantId === restaurant.restaurant_uid) {
+            return { ...restaurant, ...updatedRestaurant };
+          }
+          return restaurant;
+        }),
+      };
+    }),
 }));

@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { deleteRestaurant } from "@/api/restaurantsAPI.ts";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -33,20 +33,18 @@ export const DeleteWarning = ({ restaurantId }: DeleteWarningProps) => {
     onSuccess: () => {
       toast.success("You deleted restaurant successfully!");
       removeRestaurant(restaurantId);
+      setIsOpen(false);
     },
   });
 
   const onDeleteRestaurant = () => {
     mutate({ restaurant_uid: restaurantId });
-    setIsOpen(true);
   };
 
   return (
-    <AlertDialog open={isOpen}>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" onClick={() => setIsOpen(true)}>
-          Delete
-        </Button>
+        <Button variant="destructive">Delete</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -63,9 +61,13 @@ export const DeleteWarning = ({ restaurantId }: DeleteWarningProps) => {
           >
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction disabled={isPending} onClick={onDeleteRestaurant}>
-            Continue
-          </AlertDialogAction>
+          <Button disabled={isPending} onClick={onDeleteRestaurant}>
+            {isPending ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              "Continue"
+            )}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

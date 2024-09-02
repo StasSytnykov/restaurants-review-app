@@ -36,9 +36,16 @@ export const addRestaurant = async (
 };
 
 export const updateRestaurant = async (
+  name: string,
+  location: string,
+  price_range: number,
   restaurant_uid: string,
 ): Promise<UpdateRestaurants> => {
-  const response = await axiosRestaurant.put(`/${restaurant_uid}`);
+  const response = await axiosRestaurant.put(`/${restaurant_uid}`, {
+    name,
+    location,
+    price_range,
+  });
   return response.data;
 };
 

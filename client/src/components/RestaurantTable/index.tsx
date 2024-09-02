@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -8,11 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button.tsx";
 import { getRestaurants } from "@/api/restaurantsAPI.ts";
 import { DeleteWarning } from "@/components/DeleteWarning";
+import { UpdateRestaurantDialog } from "@/components/UpdateRestaurantDialog";
 import { useRestaurantsStore } from "@/store/restaurants.tsx";
-import { useEffect } from "react";
 
 export const RestaurantTable = () => {
   const { restaurants, setRestaurants } = useRestaurantsStore((state) => state);
@@ -60,7 +60,9 @@ export const RestaurantTable = () => {
               <TableCell>{"$".repeat(restaurant.price_range)}</TableCell>
               <TableCell>Rating</TableCell>
               <TableCell>
-                <Button variant="secondary">Update</Button>
+                <UpdateRestaurantDialog
+                  restaurantId={restaurant.restaurant_uid}
+                />
               </TableCell>
               <TableCell>
                 <DeleteWarning restaurantId={restaurant.restaurant_uid} />
