@@ -5,33 +5,14 @@ import {
   CardTitle,
 } from "@/components/ui/card.tsx";
 import { Stars } from "@/components/Stars";
+import { Review } from "@/Types";
 
 interface RestaurantDetailsProps {
   title: string;
+  reviews: Review[];
 }
 
-export const RestaurantDetails = ({ title }: RestaurantDetailsProps) => {
-  const reviews = [
-    {
-      id: 1,
-      name: "John Doe",
-      rating: 4.5,
-      comment: "Excellent food and atmosphere. Highly recommended!",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      rating: 5,
-      comment: "The best restaurant in town. Impeccable service!",
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      rating: 4,
-      comment: "Great experience overall. Will definitely come back.",
-    },
-  ];
-
+export const RestaurantDetails = ({ title, reviews }: RestaurantDetailsProps) => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8 text-center">{title}</h1>
@@ -45,7 +26,7 @@ export const RestaurantDetails = ({ title }: RestaurantDetailsProps) => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p>{review.comment}</p>
+              <p>{review.review}</p>
             </CardContent>
           </Card>
         ))}

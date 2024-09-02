@@ -28,7 +28,10 @@ export const RestaurantDetailsPage = () => {
   return (
     restaurant && (
       <section>
-        <RestaurantDetails title={restaurant.data.restaurant.name} />
+        <RestaurantDetails
+          title={restaurant.data.restaurant.name}
+          reviews={restaurant.data.reviews}
+        />
         {restaurantId && <ReviewForm restaurantId={restaurantId} />}
       </section>
     )
