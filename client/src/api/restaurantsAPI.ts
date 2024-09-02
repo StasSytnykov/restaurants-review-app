@@ -1,5 +1,5 @@
 import axiosRestaurant from "@/api/axiosRestaurant.ts";
-import { AddDeleteRestaurant, Restaurant } from "@/Types";
+import { AddDeleteRestaurant, Restaurant, Review } from "@/Types";
 
 interface GetRestaurants {
   status: string;
@@ -22,6 +22,7 @@ interface RestaurantResponse {
   results: number;
   data: {
     restaurant: Restaurant;
+    reviews: Review[];
   };
 }
 

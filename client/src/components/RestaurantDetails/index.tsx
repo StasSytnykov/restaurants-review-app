@@ -1,10 +1,10 @@
-import { Star, StarHalf } from "lucide-react";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card.tsx";
+import { Stars } from "@/components/Stars";
 
 interface RestaurantDetailsProps {
   title: string;
@@ -32,27 +32,6 @@ export const RestaurantDetails = ({ title }: RestaurantDetailsProps) => {
     },
   ];
 
-  const renderStars = (rating: number) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
-        stars.push(
-          <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />,
-        );
-      } else if (i - 0.5 <= rating) {
-        stars.push(
-          <StarHalf
-            key={i}
-            className="w-5 h-5 fill-yellow-400 text-yellow-400"
-          />,
-        );
-      } else {
-        stars.push(<Star key={i} className="w-5 h-5 text-gray-300" />);
-      }
-    }
-    return stars;
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8 text-center">{title}</h1>
@@ -62,7 +41,7 @@ export const RestaurantDetails = ({ title }: RestaurantDetailsProps) => {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <span>{review.name}</span>
-                <div className="flex">{renderStars(review.rating)}</div>
+                <Stars rating={review.rating} />
               </CardTitle>
             </CardHeader>
             <CardContent>

@@ -1,8 +1,8 @@
 export interface Restaurant {
-    restaurant_uid: string;
-    name: string;
-    location: string;
-    price_range: number;
+  restaurant_uid: string;
+  name: string;
+  location: string;
+  price_range: number;
 }
 
 export interface AddDeleteRestaurant {
@@ -10,4 +10,12 @@ export interface AddDeleteRestaurant {
   data: {
     restaurant: Restaurant;
   };
+}
+
+export interface Review {
+  id: number;
+  restaurant_id: string;
+  name: string;
+  review: string;
+  rating: number;
 }
