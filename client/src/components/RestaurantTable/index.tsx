@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -55,7 +56,11 @@ export const RestaurantTable = () => {
         {restaurants &&
           restaurants.map((restaurant) => (
             <TableRow key={restaurant.restaurant_uid}>
-              <TableCell className="font-medium">{restaurant.name}</TableCell>
+              <TableCell className="font-medium">
+                <Link to={`/restaurant/${restaurant.restaurant_uid}`}>
+                  {restaurant.name}
+                </Link>
+              </TableCell>
               <TableCell>{restaurant.location}</TableCell>
               <TableCell>{"$".repeat(restaurant.price_range)}</TableCell>
               <TableCell>Rating</TableCell>

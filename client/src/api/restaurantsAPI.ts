@@ -17,8 +17,23 @@ interface UpdateRestaurants {
   };
 }
 
+interface RestaurantResponse {
+  status: string;
+  results: number;
+  data: {
+    restaurant: Restaurant;
+  };
+}
+
 export const getRestaurants = async (): Promise<GetRestaurants> => {
   const response = await axiosRestaurant.get("");
+  return response.data;
+};
+
+export const getRestaurant = async (
+  restaurantId: string,
+): Promise<RestaurantResponse> => {
+  const response = await axiosRestaurant.get(`/${restaurantId}`);
   return response.data;
 };
 
