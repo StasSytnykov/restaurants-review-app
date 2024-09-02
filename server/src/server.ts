@@ -32,12 +32,15 @@ app.get("/api/v1/restaurants", async (req: Request, res: Response) => {
 app.get("/api/v1/restaurants/:id", async (req: Request, res: Response) => {
   try {
     const query = "SELECT * FROM restaurant WHERE restaurant_uid = $1";
+    const reviewQuery = "SELECT * FROM reviews WHERE restaurant_id = $1";
     const results = await pool.query(query, [req.params.id]);
+    const reviewsResults = await pool.query(reviewQuery, [req.params.id]);
 
     res.status(200).json({
       status: "success",
       data: {
         restaurant: results.rows[0],
+        reviews: reviewsResults.rows,
       },
     });
   } catch (error) {
@@ -114,6 +117,33 @@ app.delete("/api/v1/restaurants/:id", async (req: Request, res: Response) => {
     });
   }
 });
+
+app.post(
+  "/api/v1/restaurants/:id/addReview",
+  async (req: Request, res: Response) => {
+    try {
+      const query =
+        "INSERT INTO reviews (restaurant_id, name, review, rating) VALUES ($1, $2, $3, $4) RETURNING *";
+      const results = await pool.query(query, [
+        req.params.id,
+        req.body.name,
+        req.body.review,
+        req.body.rating,
+      ]);
+
+      res.status(201).json({
+        status: "success",
+        data: {
+          review: results.rows[0],
+        },
+      });
+    } catch (error) {
+      res.status(404).json({
+        error,
+      });
+    }
+  },
+);
 
 const port = process.env.PORT || 3001;
 
