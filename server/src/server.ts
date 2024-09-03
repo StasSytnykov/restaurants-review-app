@@ -12,7 +12,8 @@ app.use(express.json());
 
 app.get("/api/v1/restaurants", async (req: Request, res: Response) => {
   try {
-    const query = "SELECT * FROM restaurant";
+    const query =
+      "SELECT restaurant.*, CAST(rev.review_count AS INTEGER) AS review_count, CAST(rev.average_rating AS INTEGER) AS average_rating FROM restaurant LEFT JOIN (SELECT restaurant_id, COUNT(*) AS review_count, AVG(rating)::NUMERIC(10,2) AS average_rating FROM reviews GROUP BY restaurant_id) rev ON rev.restaurant_id = restaurant_uid";
     const results = await pool.query(query);
 
     res.status(200).json({
@@ -31,7 +32,7 @@ app.get("/api/v1/restaurants", async (req: Request, res: Response) => {
 
 app.get("/api/v1/restaurants/:id", async (req: Request, res: Response) => {
   try {
-    const query = "SELECT * FROM restaurant WHERE restaurant_uid = $1";
+    const query = "SELECT restaurant.*, CAST(rev.review_count AS INTEGER) AS review_count, CAST(rev.average_rating AS INTEGER) AS average_rating FROM restaurant LEFT JOIN (SELECT restaurant_id, COUNT(*) AS review_count, AVG(rating)::NUMERIC(10,2) AS average_rating FROM reviews GROUP BY restaurant_id) rev ON rev.restaurant_id = restaurant_uid WHERE restaurant_uid = $1";
     const reviewQuery = "SELECT * FROM reviews WHERE restaurant_id = $1";
     const results = await pool.query(query, [req.params.id]);
     const reviewsResults = await pool.query(reviewQuery, [req.params.id]);
