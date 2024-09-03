@@ -46,7 +46,7 @@ export function UpdateRestaurantDialog({
       location,
       price_range,
       restaurant_uid,
-    }: Restaurant) => {
+    }: Omit<Restaurant, "average_rating" | "review_count">) => {
       return updateRestaurant(name, location, price_range, restaurant_uid);
     },
   });

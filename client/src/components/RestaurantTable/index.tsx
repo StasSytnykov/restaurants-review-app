@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -18,7 +19,6 @@ import { useRestaurantsStore } from "@/store/restaurants.tsx";
 
 export const RestaurantTable = () => {
   const { restaurants, setRestaurants } = useRestaurantsStore((state) => state);
-  const navigate = useNavigate();
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["restaurants"],
@@ -57,14 +57,16 @@ export const RestaurantTable = () => {
         )}
         {restaurants &&
           restaurants.map((restaurant) => (
-            <TableRow
-              key={restaurant.restaurant_uid}
-              className="cursor-pointer"
-              onClick={() =>
-                navigate(`/restaurant/${restaurant.restaurant_uid}`)
-              }
-            >
-              <TableCell className="font-medium">{restaurant.name}</TableCell>
+            <TableRow key={restaurant.restaurant_uid}>
+              <TableCell className="font-medium">
+                <Link
+                  to={`/restaurant/${restaurant.restaurant_uid}`}
+                  className="cursor-pointer underline underline-offset-2 flex items-center gap-2"
+                >
+                  {restaurant.name}
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+              </TableCell>
               <TableCell>{restaurant.location}</TableCell>
               <TableCell>{"$".repeat(restaurant.price_range)}</TableCell>
               <TableCell>

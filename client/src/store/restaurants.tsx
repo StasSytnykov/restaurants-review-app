@@ -7,7 +7,10 @@ interface RestaurantsStore {
   removeRestaurant: (restaurantId: string) => void;
   updateRestaurant: (
     restaurantId: string,
-    updatedRestaurant: Omit<Restaurant, "restaurant_uid">,
+    updatedRestaurant: Omit<
+      Restaurant,
+      "restaurant_uid" | "average_rating" | "review_count"
+    >,
   ) => void;
 }
 
