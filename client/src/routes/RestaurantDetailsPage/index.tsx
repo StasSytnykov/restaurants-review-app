@@ -29,6 +29,8 @@ export const RestaurantDetailsPage = () => {
     restaurant && (
       <section>
         <RestaurantDetails
+          reviewsCount={restaurant.data.restaurant.review_count}
+          rating={restaurant.data.restaurant.average_rating}
           title={restaurant.data.restaurant.name}
           reviews={restaurant.data.reviews}
         />

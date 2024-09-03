@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -13,10 +13,12 @@ import {
 import { getRestaurants } from "@/api/restaurantsAPI.ts";
 import { DeleteWarning } from "@/components/DeleteWarning";
 import { UpdateRestaurantDialog } from "@/components/UpdateRestaurantDialog";
+import { RatingStars } from "@/components/RatingStars";
 import { useRestaurantsStore } from "@/store/restaurants.tsx";
 
 export const RestaurantTable = () => {
   const { restaurants, setRestaurants } = useRestaurantsStore((state) => state);
+  const navigate = useNavigate();
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["restaurants"],
@@ -55,15 +57,22 @@ export const RestaurantTable = () => {
         )}
         {restaurants &&
           restaurants.map((restaurant) => (
-            <TableRow key={restaurant.restaurant_uid}>
-              <TableCell className="font-medium">
-                <Link to={`/restaurant/${restaurant.restaurant_uid}`}>
-                  {restaurant.name}
-                </Link>
-              </TableCell>
+            <TableRow
+              key={restaurant.restaurant_uid}
+              className="cursor-pointer"
+              onClick={() =>
+                navigate(`/restaurant/${restaurant.restaurant_uid}`)
+              }
+            >
+              <TableCell className="font-medium">{restaurant.name}</TableCell>
               <TableCell>{restaurant.location}</TableCell>
               <TableCell>{"$".repeat(restaurant.price_range)}</TableCell>
-              <TableCell>Rating</TableCell>
+              <TableCell>
+                <RatingStars
+                  rating={restaurant.average_rating}
+                  reviewsCount={restaurant.review_count}
+                />
+              </TableCell>
               <TableCell>
                 <UpdateRestaurantDialog
                   restaurantId={restaurant.restaurant_uid}

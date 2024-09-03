@@ -2,9 +2,10 @@ import { Star, StarHalf } from "lucide-react";
 
 interface StarsProps {
   rating: number;
+  reviewsCount?: number;
 }
 
-export const Stars = ({ rating }: StarsProps) => {
+export const RatingStars = ({ rating, reviewsCount }: StarsProps) => {
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -26,5 +27,9 @@ export const Stars = ({ rating }: StarsProps) => {
     return stars;
   };
 
-  return <div className="flex">{renderStars(rating)}</div>;
+  return (
+    <div className="flex">
+      {renderStars(rating)} {reviewsCount}
+    </div>
+  );
 };

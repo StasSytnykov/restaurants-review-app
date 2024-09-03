@@ -3,6 +3,8 @@ export interface Restaurant {
   name: string;
   location: string;
   price_range: number;
+  average_rating: number;
+  review_count: number;
 }
 
 export interface AddDeleteRestaurant {
