@@ -2,7 +2,7 @@ import { FormEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
-import { addRestaurant } from "@/api/restaurantsAPI.ts";
+import { addRestaurants } from "@/api/restaurantsAPI.ts";
 import { useHandleBasicDataOfRestaurant } from "@/hooks/useHandleBasicDataOfRestaurant.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { FormContent } from "@/components/FormContent";
@@ -24,8 +24,8 @@ export const NewRestaurantPanel = () => {
       name,
       location,
       price_range,
-    }: Omit<Restaurant, "restaurant_uid">) => {
-      return addRestaurant(name, location, price_range);
+    }: Omit<Restaurant, "restaurant_uid" | "average_rating" | "review_count">) => {
+      return addRestaurants(name, location, price_range);
     },
     onSuccess: () => {
       toast.success("You added restaurant successfully!");

@@ -26,7 +26,7 @@ router
   .get(getRestaurantById)
   .put(updateRestaurant)
   .delete(deleteRestaurant);
-router.post("/api/v1/restaurants/:id/addReview", addReview);
+router.post("/api/v1/restaurants/:id/review", addReview);
 
 app.use(router);
 

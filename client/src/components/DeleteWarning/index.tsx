@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { deleteRestaurant } from "@/api/restaurantsAPI.ts";
+import { deleteRestaurants } from "@/api/restaurantsAPI.ts";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -28,7 +28,7 @@ export const DeleteWarning = ({ restaurantId }: DeleteWarningProps) => {
   );
   const { mutate, isPending } = useMutation({
     mutationFn: ({ restaurant_uid }: Pick<Restaurant, "restaurant_uid">) => {
-      return deleteRestaurant(restaurant_uid);
+      return deleteRestaurants(restaurant_uid);
     },
     onSuccess: () => {
       toast.success("You deleted restaurant successfully!");

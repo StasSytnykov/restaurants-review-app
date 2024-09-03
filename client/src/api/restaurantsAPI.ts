@@ -17,11 +17,11 @@ interface UpdateRestaurants {
   };
 }
 
-interface RestaurantResponse {
+interface RestaurantsResponse {
   status: string;
   results: number;
   data: {
-    restaurant: Restaurant;
+    restaurants: Restaurant;
     reviews: Review[];
   };
 }
@@ -31,14 +31,14 @@ export const getRestaurants = async (): Promise<GetRestaurants> => {
   return response.data;
 };
 
-export const getRestaurant = async (
+export const getRestaurantsById = async (
   restaurantId: string,
-): Promise<RestaurantResponse> => {
+): Promise<RestaurantsResponse> => {
   const response = await axiosRestaurant.get(`/${restaurantId}`);
   return response.data;
 };
 
-export const addRestaurant = async (
+export const addRestaurants = async (
   name: string,
   location: string,
   price_range: number,
@@ -51,7 +51,7 @@ export const addRestaurant = async (
   return response.data;
 };
 
-export const updateRestaurant = async (
+export const updateRestaurants = async (
   name: string,
   location: string,
   price_range: number,
@@ -65,7 +65,7 @@ export const updateRestaurant = async (
   return response.data;
 };
 
-export const deleteRestaurant = async (
+export const deleteRestaurants = async (
   restaurant_uid: string,
 ): Promise<AddDeleteRestaurant> => {
   const response = await axiosRestaurant.delete(`/${restaurant_uid}`);

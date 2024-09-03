@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
-import { updateRestaurant } from "@/api/restaurantsAPI.ts";
+import { updateRestaurants } from "@/api/restaurantsAPI.ts";
 import { useHandleBasicDataOfRestaurant } from "@/hooks/useHandleBasicDataOfRestaurant.tsx";
 import { FormContent } from "@/components/FormContent";
 import { Button } from "@/components/ui/button";
@@ -47,7 +47,7 @@ export function UpdateRestaurantDialog({
       price_range,
       restaurant_uid,
     }: Omit<Restaurant, "average_rating" | "review_count">) => {
-      return updateRestaurant(name, location, price_range, restaurant_uid);
+      return updateRestaurants(name, location, price_range, restaurant_uid);
     },
   });
 

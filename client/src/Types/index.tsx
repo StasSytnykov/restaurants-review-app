@@ -10,7 +10,7 @@ export interface Restaurant {
 export interface AddDeleteRestaurant {
   status: string;
   data: {
-    restaurant: Restaurant;
+    restaurants: Restaurant;
   };
 }
 

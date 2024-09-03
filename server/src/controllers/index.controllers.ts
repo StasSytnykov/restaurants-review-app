@@ -14,7 +14,7 @@ const addRestaurant = async (req: Request, res: Response) => {
     res.status(201).json({
       status: "success",
       data: {
-        restaurant: results.rows[0],
+        restaurants: results.rows[0],
       },
     });
   } catch (error) {
@@ -55,7 +55,7 @@ const getRestaurantById = async (req: Request, res: Response) => {
     res.status(200).json({
       status: "success",
       data: {
-        restaurant: results.rows[0],
+        restaurants: results.rows[0],
         reviews: reviewsResults.rows,
       },
     });
@@ -81,7 +81,7 @@ const updateRestaurant = async (req: Request, res: Response) => {
       status: "success",
       results: results.rows.length,
       data: {
-        restaurant: results.rows[0],
+        restaurants: results.rows[0],
       },
     });
   } catch (error) {
@@ -101,7 +101,7 @@ const deleteRestaurant = async (req: Request, res: Response) => {
       status: "success",
       results: results.rows.length,
       data: {
-        restaurant: results.rows[0],
+        restaurants: results.rows[0],
       },
     });
   } catch (error) {

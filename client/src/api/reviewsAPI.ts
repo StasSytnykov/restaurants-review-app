@@ -14,7 +14,7 @@ export const addReview = async (
   review: string,
   rating: number,
 ): Promise<AddReviewResponse> => {
-  const response = await axiosRestaurant.post(`/${restaurantId}/addReview`, {
+  const response = await axiosRestaurant.post(`/${restaurantId}/review`, {
     name,
     review,
     rating,

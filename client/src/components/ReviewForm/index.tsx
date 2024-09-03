@@ -43,7 +43,7 @@ export const ReviewForm = ({ restaurantId }: ReviewFormProps) => {
     },
     onSuccess: () => {
       toast.success("You added review successfully!");
-      queryClient.invalidateQueries({ queryKey: ["restaurant"] });
+      queryClient.invalidateQueries({ queryKey: ["restaurantItem"] });
     },
   });
 
