@@ -11,12 +11,15 @@ const addRestaurant = async (req: Request, res: Response) => {
       req.body.price_range,
     ]);
 
-    res.status(201).json({
-      status: "success",
-      data: {
-        restaurants: results.rows[0],
-      },
-    });
+    res
+      .status(201)
+      .location(`api/v1/restaurants/${results.rows[0].restaurant_uid}`)
+      .json({
+        status: "success",
+        data: {
+          restaurants: results.rows[0],
+        },
+      });
   } catch (error) {
     res.status(404).json({
       error,
@@ -67,15 +70,31 @@ const getRestaurantById = async (req: Request, res: Response) => {
 };
 
 const updateRestaurant = async (req: Request, res: Response) => {
+  const { name, location, price_range, id } = req.body;
+
+  if (!name) {
+    res.status(400).json({
+      message: "Name is required field",
+    });
+    return;
+  }
+  if (!location) {
+    res.status(400).json({
+      message: "Location is required field",
+    });
+    return;
+  }
+  if (!price_range) {
+    res.status(400).json({
+      message: "Price Range is required field",
+    });
+    return;
+  }
+
   try {
     const query =
       "UPDATE restaurant SET name = $1, location = $2, price_range = $3 WHERE restaurant_uid = $4 RETURNING *";
-    const results = await pool.query(query, [
-      req.body.name,
-      req.body.location,
-      req.body.price_range,
-      req.params.id,
-    ]);
+    const results = await pool.query(query, [name, location, price_range, id]);
 
     res.status(200).json({
       status: "success",
@@ -93,16 +112,22 @@ const updateRestaurant = async (req: Request, res: Response) => {
 
 const deleteRestaurant = async (req: Request, res: Response) => {
   try {
+    const reviewsQuery = "DELETE FROM reviews WHERE restaurant_id = $1";
+    await pool.query(reviewsQuery, [req.params.id]);
     const query =
       "DELETE FROM restaurant WHERE restaurant_uid = $1 RETURNING *";
     const results = await pool.query(query, [req.params.id]);
+    console.log();
 
-    res.status(200).json({
+    if (!results.rows[0]) {
+      res.status(404).json({
+        message: "Resource not found",
+      });
+      return;
+    }
+
+    res.status(204).json({
       status: "success",
-      results: results.rows.length,
-      data: {
-        restaurants: results.rows[0],
-      },
     });
   } catch (error) {
     res.status(404).json({
