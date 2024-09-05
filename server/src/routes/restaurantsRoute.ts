@@ -7,13 +7,14 @@ import {
   getRestaurants,
   updateRestaurant,
 } from "../controllers/index.controllers";
+import { verifyJWT } from "../middleware/verifyJWT";
 
 const router = Router();
 
 router.route("/").post(addRestaurant).get(getRestaurants);
 router
   .route("/:id")
-  .get(getRestaurantById)
+  .get(verifyJWT, getRestaurantById)
   .put(updateRestaurant)
   .delete(deleteRestaurant);
 router.post("/:id/review", addReview);

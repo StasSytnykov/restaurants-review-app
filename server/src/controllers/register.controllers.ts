@@ -19,7 +19,7 @@ const handleNewUser = async (req: Request, res: Response) => {
   try {
     const hashedPass = await bcrypt.hash(user_pass, 10);
     const addUserQuery =
-      "INSERT INTO users (user_id, user_name, pass_hash) VALUES (uuid_generate_v4(), $1, $2) RETURNING *";
+      "INSERT INTO users (user_id, user_name, pass_hash) VALUES (uuid_generate_v4(), $1, $2)";
     await pool.query(addUserQuery, [user_name, hashedPass]);
     res.status(201).json({
       status: "success",
