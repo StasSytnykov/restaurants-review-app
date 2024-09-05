@@ -11,7 +11,7 @@ interface User {
 
 const handleRefreshToken = async (req: Request, res: Response) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.status(401);
+  if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken = cookies.jwt;
 
   const usersQuery = "SELECT * FROM users";

@@ -7,6 +7,7 @@ import restaurantsRoute from "./routes/restaurantsRoute";
 import registerRouter from "./routes/registerRoute";
 import authRoute from "./routes/authRoute";
 import refreshRoute from "./routes/refreshRoute";
+import refreshLogout from "./routes/logoutRoute";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use("/api/v1/restaurants", restaurantsRoute);
 app.use("/api/v1/register", registerRouter);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/refresh", refreshRoute);
+app.use("/api/v1/logout", refreshLogout);
 
 const port = process.env.PORT || 3001;
 
