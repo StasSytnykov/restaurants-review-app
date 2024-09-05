@@ -1,34 +1,19 @@
 import "dotenv/config";
-import express, { Router } from "express";
+import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import {
-  addRestaurant,
-  getRestaurants,
-  getRestaurantById,
-  updateRestaurant,
-  deleteRestaurant,
-  addReview,
-} from "./controllers/index.controllers";
+import restaurantsRoute from "./routes/restaurantsRoute";
+import registerRouter from "./routes/registerRoute";
 
 const app = express();
-
-const router = Router();
 
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-router.route("/api/v1/restaurants").post(addRestaurant).get(getRestaurants);
-router
-  .route("/api/v1/restaurants/:id")
-  .get(getRestaurantById)
-  .put(updateRestaurant)
-  .delete(deleteRestaurant);
-router.post("/api/v1/restaurants/:id/review", addReview);
-
-app.use(router);
+app.use("/api/v1/restaurants", restaurantsRoute);
+app.use("/api/v1/register", registerRouter);
 
 const port = process.env.PORT || 3001;
 

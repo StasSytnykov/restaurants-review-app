@@ -117,7 +117,6 @@ const deleteRestaurant = async (req: Request, res: Response) => {
     const query =
       "DELETE FROM restaurant WHERE restaurant_uid = $1 RETURNING *";
     const results = await pool.query(query, [req.params.id]);
-    console.log();
 
     if (!results.rows[0]) {
       res.status(404).json({
