@@ -12,10 +12,9 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InputWithLabel } from "@/components/InputWithLabel";
 
-export const RegisterForm = () => {
+export const LoginForm = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -23,28 +22,25 @@ export const RegisterForm = () => {
     e.preventDefault();
     setError("");
 
-    if (!userName || !password || !confirmPassword) {
-      setError("All fields are required");
+    if (!userName || !password) {
+      setError("Email and password are required");
       return;
     }
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+    // Here you would typically make an API call to authenticate the user
+    console.log("Login submitted:", { userName, password });
 
-    // Here you would typically make an API call to register the user
-    console.log("Registration submitted:", { userName, password });
-
-    // For demonstration, we'll just redirect to a success page
-    navigate("/register-success");
+    // For demonstration, we'll just redirect to a dashboard page
+    navigate("/");
   };
 
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>Register</CardTitle>
-        <CardDescription>Create a new account</CardDescription>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>
+          Enter your credentials to access your account
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -68,31 +64,27 @@ export const RegisterForm = () => {
               id="password"
             />
           </div>
-          <div className="space-y-2">
-            <InputWithLabel
-              name="Confirm Password"
-              type="password"
-              value={password}
-              required
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              id="cofirmPassword"
-            />
-          </div>
           {error && (
             <Alert variant="destructive">
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
           <Button type="submit" className="w-full">
-            Register
+            Login
           </Button>
         </form>
       </CardContent>
-      <CardFooter>
-        <p className="text-sm text-center w-full">
-          Already have an account?{" "}
-          <Link to="/login" className="text-primary hover:underline">
-            Log in
+      <CardFooter className="flex flex-col space-y-2">
+        {/*<a*/}
+        {/*  href="/forgot-password"*/}
+        {/*  className="text-sm text-primary hover:underline"*/}
+        {/*>*/}
+        {/*  Forgot password?*/}
+        {/*</a>*/}
+        <p className="text-sm text-center">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-primary hover:underline">
+            Register
           </Link>
         </p>
       </CardFooter>
