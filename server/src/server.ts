@@ -8,10 +8,13 @@ import registerRouter from "./routes/registerRoute";
 import authRoute from "./routes/authRoute";
 import refreshRoute from "./routes/refreshRoute";
 import refreshLogout from "./routes/logoutRoute";
+import credentials from "./middleware/credentials";
+import corsOptions from "./config/corsOptions";
 
 const app = express();
 
-app.use(cors());
+app.use(credentials);
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
