@@ -37,7 +37,7 @@ export const RegisterForm = () => {
     console.log("Registration submitted:", { userName, password });
 
     // For demonstration, we'll just redirect to a success page
-    navigate("/register-success");
+    navigate("/login");
   };
 
   return (

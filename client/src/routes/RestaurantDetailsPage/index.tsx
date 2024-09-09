@@ -3,8 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getRestaurantsById } from "@/api/restaurantsAPI.ts";
 import { RestaurantDetails } from "@/components/RestaurantDetails";
 import { ReviewForm } from "@/components/ReviewForm";
+import { useUserStore } from "@/store/user.tsx";
 
 export const RestaurantDetailsPage = () => {
+  const user = useUserStore((state) => state.user);
   const { restaurantId } = useParams();
 
   const {
@@ -15,7 +17,7 @@ export const RestaurantDetailsPage = () => {
   } = useQuery({
     queryKey: ["restaurantItem"],
     queryFn: async () => {
-      if (restaurantId) {
+      if (restaurantId && user) {
         return await getRestaurantsById(restaurantId);
       }
     },

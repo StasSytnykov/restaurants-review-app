@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +17,8 @@ export const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state.from.pathname || "/";
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ export const LoginForm = () => {
     console.log("Login submitted:", { userName, password });
 
     // For demonstration, we'll just redirect to a dashboard page
-    navigate("/");
+    navigate(from);
   };
 
   return (
