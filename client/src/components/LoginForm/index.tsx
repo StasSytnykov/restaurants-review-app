@@ -18,7 +18,7 @@ export const LoginForm = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state.from.pathname || "/";
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

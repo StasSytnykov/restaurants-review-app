@@ -1,6 +1,5 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,6 +10,9 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InputWithLabel } from "@/components/InputWithLabel";
+import { useMutation } from "@tanstack/react-query";
+import { registerUser } from "@/api/authApi.ts";
+import { LoaderButton } from "@/components/LoaderButton";
 
 export const RegisterForm = () => {
   const [userName, setUserName] = useState("");
@@ -18,6 +20,17 @@ export const RegisterForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({
+      userName,
+      userPass,
+    }: {
+      userName: string;
+      userPass: string;
+    }) => {
+      return registerUser(userName, userPass);
+    },
+  });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -33,8 +46,7 @@ export const RegisterForm = () => {
       return;
     }
 
-    // Here you would typically make an API call to register the user
-    console.log("Registration submitted:", { userName, password });
+    mutate({ userName, userPass: confirmPassword });
 
     // For demonstration, we'll just redirect to a success page
     navigate("/login");
@@ -72,7 +84,7 @@ export const RegisterForm = () => {
             <InputWithLabel
               name="Confirm Password"
               type="password"
-              value={password}
+              value={confirmPassword}
               required
               onChange={(e) => setConfirmPassword(e.target.value)}
               id="cofirmPassword"
@@ -83,9 +95,12 @@ export const RegisterForm = () => {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          <Button type="submit" className="w-full">
-            Register
-          </Button>
+          <LoaderButton
+            buttonType="submit"
+            isPending={isPending}
+            text="Register"
+            buttonClasses="w-full"
+          />
         </form>
       </CardContent>
       <CardFooter>

@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { updateRestaurants } from "@/api/restaurantsAPI.ts";
 import { useHandleBasicDataOfRestaurant } from "@/hooks/useHandleBasicDataOfRestaurant.tsx";
@@ -15,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { LoaderButton } from "@/components/LoaderButton";
 import { Restaurant } from "@/Types";
 import { useRestaurantsStore } from "@/store/restaurants.tsx";
 
@@ -96,13 +96,11 @@ export function UpdateRestaurantDialog({
             priceRange={priceRange}
           />
           <DialogFooter>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                "Save changes"
-              )}
-            </Button>
+            <LoaderButton
+              buttonType="submit"
+              isPending={isPending}
+              text="Save changes"
+            />
           </DialogFooter>
         </form>
       </DialogContent>
