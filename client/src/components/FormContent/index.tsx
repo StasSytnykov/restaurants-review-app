@@ -31,15 +31,17 @@ export const FormContent = ({
     <>
       <InputWithLabel
         name="Name"
-        type="name"
+        type="text"
         onChange={onNameChange}
         value={name}
+        id="name"
       />
       <InputWithLabel
         name="location"
-        type="location"
+        type="text"
         onChange={onLocationChange}
         value={location}
+        id="location"
       />
       <Select onValueChange={onPriceRangeChange} value={priceRange}>
         <SelectTrigger className="w-[180px]">

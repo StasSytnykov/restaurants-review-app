@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -21,6 +20,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Review } from "@/Types";
 import { toast } from "react-toastify";
 import { addReview } from "@/api/reviewsAPI.ts";
+import { InputWithLabel } from "@/components/InputWithLabel";
 
 interface ReviewFormProps {
   restaurantId: string;
@@ -87,12 +87,12 @@ export const ReviewForm = ({ restaurantId }: ReviewFormProps) => {
               </Select>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Your Name</Label>
-              <Input
+              <InputWithLabel
                 id="name"
-                placeholder="Enter your name"
+                name="Your Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                type="text"
               />
             </div>
             <div className="flex flex-col space-y-1.5">

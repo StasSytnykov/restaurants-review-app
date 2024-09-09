@@ -25,7 +25,6 @@ export const RestaurantDetailsPage = () => {
 
   if (isError) return <section>{error.message}</section>;
 
-  console.log(restaurantItem);
   return (
     restaurantItem && (
       <section>

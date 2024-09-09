@@ -7,6 +7,8 @@ interface InputWithLabelProps {
   type: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   value: string;
+  required?: boolean;
+  id: string;
 }
 
 export function InputWithLabel({
@@ -14,16 +16,19 @@ export function InputWithLabel({
   type,
   onChange,
   value,
+  required,
+  id,
 }: InputWithLabelProps) {
   return (
     <div className="grid w-full max-w-sm items-center gap-1.5">
       <Label htmlFor={type}>{name}</Label>
       <Input
         type={type}
-        id={type}
+        id={id}
         placeholder={name}
         onChange={onChange}
         value={value}
+        required={required}
       />
     </div>
   );
