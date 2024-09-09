@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getRestaurantsById } from "@/api/restaurantsAPI.ts";
 import { RestaurantDetails } from "@/components/RestaurantDetails";
 import { ReviewForm } from "@/components/ReviewForm";
 import { useUserStore } from "@/store/user.tsx";
+import { useAxiosPrivate } from "@/hooks/useAxiosPrivate.ts";
 
 export const RestaurantDetailsPage = () => {
   const user = useUserStore((state) => state.user);
   const { restaurantId } = useParams();
+  const privateAxios = useAxiosPrivate();
 
   const {
     data: restaurantItem,
@@ -18,7 +19,8 @@ export const RestaurantDetailsPage = () => {
     queryKey: ["restaurantItem"],
     queryFn: async () => {
       if (restaurantId && user) {
-        return await getRestaurantsById(restaurantId);
+        const response = await privateAxios.get(`/restaurants/${restaurantId}`);
+        return response.data;
       }
     },
   });

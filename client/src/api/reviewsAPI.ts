@@ -1,5 +1,5 @@
 import { Review } from "@/Types";
-import axiosRestaurant from "@/api/axiosRestaurant.ts";
+import { restaurantsAxios } from "@/api/axios.ts";
 
 interface AddReviewResponse {
   status: string;
@@ -14,7 +14,7 @@ export const addReview = async (
   review: string,
   rating: number,
 ): Promise<AddReviewResponse> => {
-  const response = await axiosRestaurant.post(`/${restaurantId}/review`, {
+  const response = await restaurantsAxios.post(`/${restaurantId}/review`, {
     name,
     review,
     rating,

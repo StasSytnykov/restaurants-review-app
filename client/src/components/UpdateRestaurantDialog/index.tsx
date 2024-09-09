@@ -3,6 +3,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { updateRestaurants } from "@/api/restaurantsAPI.ts";
 import { useHandleBasicDataOfRestaurant } from "@/hooks/useHandleBasicDataOfRestaurant.tsx";
+import { useRefreshToken } from "@/hooks/useRefreshToken.ts";
 import { FormContent } from "@/components/FormContent";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,10 +27,10 @@ export function UpdateRestaurantDialog({
   restaurantId,
 }: UpdateRestaurantDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
-
   const { updateRestaurant: updateRestaurantStore } = useRestaurantsStore(
     (state) => state,
   );
+  const refresh = useRefreshToken();
 
   const {
     name,
@@ -104,6 +105,7 @@ export function UpdateRestaurantDialog({
           </DialogFooter>
         </form>
       </DialogContent>
+      <button onClick={refresh}>Refresh</button>
     </Dialog>
   );
 }

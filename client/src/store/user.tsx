@@ -1,10 +1,8 @@
 import { create } from "zustand";
 
 interface User {
-  userId: string;
   userName: string;
-  passHash: string;
-  refreshToken: string;
+  accessToken: string;
 }
 
 interface UserStore {

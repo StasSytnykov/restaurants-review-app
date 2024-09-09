@@ -1,6 +1,5 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,14 +10,34 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InputWithLabel } from "@/components/InputWithLabel";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "@/api/authApi.ts";
+import { useUserStore } from "@/store/user.tsx";
+import { LoaderButton } from "@/components/LoaderButton";
 
 export const LoginForm = () => {
+  const { login } = useUserStore((state) => state);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({
+      userName,
+      userPass,
+    }: {
+      userName: string;
+      userPass: string;
+    }) => {
+      return loginUser(userName, userPass);
+    },
+    onSuccess: (data) => {
+      login({ userName: userName, accessToken: data.accessToken });
+      navigate(from);
+    },
+  });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -29,11 +48,7 @@ export const LoginForm = () => {
       return;
     }
 
-    // Here you would typically make an API call to authenticate the user
-    console.log("Login submitted:", { userName, password });
-
-    // For demonstration, we'll just redirect to a dashboard page
-    navigate(from);
+    mutate({ userName, userPass: password });
   };
 
   return (
@@ -71,9 +86,12 @@ export const LoginForm = () => {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
+          <LoaderButton
+            buttonType="submit"
+            isPending={isPending}
+            text="Login"
+            buttonClasses="w-full"
+          />
         </form>
       </CardContent>
       <CardFooter className="flex flex-col space-y-2">

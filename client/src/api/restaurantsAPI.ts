@@ -1,5 +1,5 @@
-import axiosRestaurant from "@/api/axiosRestaurant.ts";
-import { AddDeleteRestaurant, Restaurant, Review } from "@/Types";
+import { AddDeleteRestaurant, Restaurant } from "@/Types";
+import { restaurantsAxios } from "@/api/axios.ts";
 
 interface GetRestaurants {
   status: string;
@@ -17,24 +17,8 @@ interface UpdateRestaurants {
   };
 }
 
-interface RestaurantsResponse {
-  status: string;
-  results: number;
-  data: {
-    restaurants: Restaurant;
-    reviews: Review[];
-  };
-}
-
 export const getRestaurants = async (): Promise<GetRestaurants> => {
-  const response = await axiosRestaurant.get("");
-  return response.data;
-};
-
-export const getRestaurantsById = async (
-  restaurantId: string,
-): Promise<RestaurantsResponse> => {
-  const response = await axiosRestaurant.get(`/${restaurantId}`);
+  const response = await restaurantsAxios.get("");
   return response.data;
 };
 
@@ -43,7 +27,7 @@ export const addRestaurants = async (
   location: string,
   price_range: number,
 ): Promise<AddDeleteRestaurant> => {
-  const response = await axiosRestaurant.post("", {
+  const response = await restaurantsAxios.post("", {
     name,
     location,
     price_range,
@@ -57,7 +41,7 @@ export const updateRestaurants = async (
   price_range: number,
   restaurant_uid: string,
 ): Promise<UpdateRestaurants> => {
-  const response = await axiosRestaurant.put(`/${restaurant_uid}`, {
+  const response = await restaurantsAxios.put(`/${restaurant_uid}`, {
     name,
     location,
     price_range,
@@ -68,6 +52,6 @@ export const updateRestaurants = async (
 export const deleteRestaurants = async (
   restaurant_uid: string,
 ): Promise<AddDeleteRestaurant> => {
-  const response = await axiosRestaurant.delete(`/${restaurant_uid}`);
+  const response = await restaurantsAxios.delete(`/${restaurant_uid}`);
   return response.data;
 };
