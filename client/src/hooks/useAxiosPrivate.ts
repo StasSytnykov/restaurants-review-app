@@ -8,7 +8,7 @@ export const useAxiosPrivate = () => {
   const { login, user } = useUserStore((state) => state);
 
   useEffect(() => {
-    const requestIntercept = privateAxios.interceptors.response.use(
+    const requestIntercept = privateAxios.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${user?.accessToken}`;
