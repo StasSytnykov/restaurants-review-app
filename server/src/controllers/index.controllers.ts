@@ -136,6 +136,11 @@ const deleteRestaurant = async (req: Request, res: Response) => {
 };
 
 const addReview = async (req: Request, res: Response) => {
+  if (!req.body.review || !req.body.rating) {
+    res.status(400).json({ message: "Fields Rating and Review is required!" });
+    return;
+  }
+
   try {
     const query =
       "INSERT INTO reviews (restaurant_id, name, review, rating) VALUES ($1, $2, $3, $4) RETURNING *";
