@@ -11,12 +11,12 @@ import { verifyJWT } from "../middleware/verifyJWT";
 
 const router = Router();
 
-router.route("/").post(addRestaurant).get(getRestaurants);
+router.route("/restaurants").post(addRestaurant).get(getRestaurants);
 router
-  .route("/:id")
+  .route("/restaurants/:id")
   .get(verifyJWT, getRestaurantById)
   .put(updateRestaurant)
   .delete(deleteRestaurant);
-router.post("/:id/review", addReview);
+router.post("/:id/reviews", verifyJWT, addReview);
 
 export default router;

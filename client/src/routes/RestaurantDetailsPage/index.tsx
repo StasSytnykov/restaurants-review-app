@@ -31,7 +31,7 @@ export const RestaurantDetailsPage = () => {
 
   return (
     restaurantItem && (
-      <section>
+      <section className="container">
         <RestaurantDetails
           reviewsCount={restaurantItem.data.restaurants.review_count}
           rating={restaurantItem.data.restaurants.average_rating}

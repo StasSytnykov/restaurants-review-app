@@ -19,27 +19,33 @@ import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Review } from "@/Types";
 import { toast } from "react-toastify";
-import { addReview } from "@/api/reviewsAPI.ts";
-import { InputWithLabel } from "@/components/InputWithLabel";
+import { useUserStore } from "@/store/user.tsx";
+import { useAxiosPrivate } from "@/hooks/useAxiosPrivate.ts";
 
 interface ReviewFormProps {
   restaurantId: string;
 }
 
 export const ReviewForm = ({ restaurantId }: ReviewFormProps) => {
+  const { user } = useUserStore((state) => state);
   const [rating, setRating] = useState("");
-  const [name, setName] = useState("");
   const [review, setReview] = useState("");
+  const privateAxios = useAxiosPrivate();
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       name,
       review,
       rating,
       restaurant_id,
     }: Omit<Review, "id">) => {
-      return addReview(restaurant_id, name, review, rating);
+      const response = await privateAxios.post(`/${restaurant_id}/reviews`, {
+        name,
+        review,
+        rating,
+      });
+      return response.data;
     },
     onSuccess: () => {
       toast.success("You added review successfully!");
@@ -49,16 +55,16 @@ export const ReviewForm = ({ restaurantId }: ReviewFormProps) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    mutate({
-      name,
-      review,
-      rating: Number(rating),
-      restaurant_id: restaurantId,
-    });
-
-    setRating("");
-    setName("");
-    setReview("");
+    if (user?.userName) {
+      mutate({
+        name: user?.userName,
+        review,
+        rating: Number(rating),
+        restaurant_id: restaurantId,
+      });
+      setRating("");
+      setReview("");
+    }
   };
 
   if (isPending) return <div>Loading...</div>;
@@ -87,15 +93,6 @@ export const ReviewForm = ({ restaurantId }: ReviewFormProps) => {
               </Select>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <InputWithLabel
-                id="name"
-                name="Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-              />
-            </div>
-            <div className="flex flex-col space-y-1.5">
               <Label htmlFor="review">Your Review</Label>
               <Textarea
                 id="review"
@@ -112,7 +109,6 @@ export const ReviewForm = ({ restaurantId }: ReviewFormProps) => {
           variant="outline"
           onClick={() => {
             setRating("");
-            setName("");
             setReview("");
           }}
         >

@@ -21,7 +21,7 @@ export const RestaurantDetails = ({
   reviewsCount,
 }: RestaurantDetailsProps) => {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="mb-6">
       <h1 className="text-4xl font-bold mb-8 text-center">{title}</h1>
       <div className="my-4 flex items-center justify-center">
         <RatingStars rating={rating} reviewsCount={reviewsCount} />
