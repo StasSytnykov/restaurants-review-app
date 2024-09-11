@@ -1,5 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -10,9 +12,13 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InputWithLabel } from "@/components/InputWithLabel";
-import { useMutation } from "@tanstack/react-query";
-import { registerUser } from "@/api/authApi.ts";
+import { RegisterUser, registerUser } from "@/api/authApi.ts";
 import { LoaderButton } from "@/components/LoaderButton";
+
+interface RegisterPayload {
+  userName: string;
+  userPass: string;
+}
 
 export const RegisterForm = () => {
   const [userName, setUserName] = useState("");
@@ -20,15 +26,25 @@ export const RegisterForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { mutate, isPending } = useMutation({
-    mutationFn: ({
-      userName,
-      userPass,
-    }: {
-      userName: string;
-      userPass: string;
-    }) => {
+  const { mutate, isPending } = useMutation<
+    RegisterUser,
+    AxiosError<any>,
+    RegisterPayload
+  >({
+    mutationFn: ({ userName, userPass }: RegisterPayload) => {
       return registerUser(userName, userPass);
+    },
+    onSuccess: () => {
+      navigate("/login");
+    },
+    onError: (error) => {
+      if (!error?.response) {
+        return setError("No server response");
+      }
+      if (error?.response?.status === 409) {
+        return setError("User already exists");
+      }
+      return setError("Registration failed");
     },
   });
 
@@ -47,9 +63,6 @@ export const RegisterForm = () => {
     }
 
     mutate({ userName, userPass: confirmPassword });
-
-    // For demonstration, we'll just redirect to a success page
-    navigate("/login");
   };
 
   return (

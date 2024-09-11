@@ -1,11 +1,11 @@
 import { defaultAxios } from "@/api/axios.ts";
 
-interface RegisterUser {
+export interface RegisterUser {
   message: string;
   success: string;
 }
 
-interface LoginUser {
+export interface LoginUser {
   message: string;
   success: string;
   accessToken: string;

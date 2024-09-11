@@ -1,5 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import {
   Card,
   CardContent,
@@ -10,10 +12,14 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { InputWithLabel } from "@/components/InputWithLabel";
-import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "@/api/authApi.ts";
+import { LoginUser, loginUser } from "@/api/authApi.ts";
 import { useUserStore } from "@/store/user.tsx";
 import { LoaderButton } from "@/components/LoaderButton";
+
+interface LoginPayload {
+  userName: string;
+  userPass: string;
+}
 
 export const LoginForm = () => {
   const { login } = useUserStore((state) => state);
@@ -23,22 +29,28 @@ export const LoginForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const { mutate, isPending } = useMutation({
-    mutationFn: ({
-      userName,
-      userPass,
-    }: {
-      userName: string;
-      userPass: string;
-    }) => {
+  const { mutate, isPending } = useMutation<
+    LoginUser,
+    AxiosError<any>,
+    LoginPayload
+  >({
+    mutationFn: ({ userName, userPass }: LoginPayload) => {
       return loginUser(userName, userPass);
     },
     onSuccess: (data) => {
       login({ userName: userName, accessToken: data.accessToken });
       navigate(from);
     },
+    onError: (error) => {
+      if (!error?.response) {
+        return setError("No server response");
+      }
+      if (error?.response?.status === 401) {
+        return setError("Wrong password or user name");
+      }
+      return setError("Login failed");
+    },
   });
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError("");
