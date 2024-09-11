@@ -12,9 +12,9 @@ export const RestaurantDetailsPage = () => {
 
   const {
     data: restaurantItem,
-    isPending,
     isError,
     error,
+    isFetching,
   } = useQuery({
     queryKey: ["restaurantItem"],
     queryFn: async () => {
@@ -25,7 +25,7 @@ export const RestaurantDetailsPage = () => {
     },
   });
 
-  if (isPending) return <section>Loading...</section>;
+  if (isFetching) return <section>Loading...</section>;
 
   if (isError) return <section>{error.message}</section>;
 

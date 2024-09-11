@@ -2,8 +2,10 @@ import { RegisterForm } from "@/components/RegisterForm";
 
 export const Register = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-100">
-      <RegisterForm />
-    </section>
+    <main className="flex-grow container mx-auto px-4 py-8 content-center">
+      <section>
+        <RegisterForm />
+      </section>
+    </main>
   );
 };

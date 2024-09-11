@@ -52,7 +52,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <Card className="w-[350px]">
+    <Card className="w-[350px] mx-auto">
       <CardHeader>
         <CardTitle>Login</CardTitle>
         <CardDescription>

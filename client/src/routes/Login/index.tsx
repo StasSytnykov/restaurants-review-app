@@ -2,8 +2,10 @@ import { LoginForm } from "@/components/LoginForm";
 
 export const Login = () => {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-100">
-      <LoginForm />
+    <main className="flex-grow container mx-auto px-4 py-8 content-center">
+      <section>
+        <LoginForm />
+      </section>
     </main>
   );
 };
