@@ -34,7 +34,7 @@ export const Header = () => {
         <div>
           {user ? (
             <div className="flex items-center space-x-4">
-              <span>Welcome, {user.userName}</span>
+              {user.userName && <span>Welcome, {user.userName}</span>}
               <Button onClick={handleLogout} variant="destructive">
                 Logout
               </Button>
