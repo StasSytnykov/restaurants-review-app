@@ -11,6 +11,12 @@ export interface LoginUser {
   accessToken: string;
 }
 
+export interface LogoutUser {
+  message: string;
+  success: string;
+  accessToken: string;
+}
+
 export const registerUser = async (
   userName: string,
   userPass: string,
@@ -38,4 +44,10 @@ export const loginUser = async (
     },
   );
   return response.data;
+};
+
+export const logoutUser = async () => {
+  await defaultAxios("/logout", {
+    withCredentials: true,
+  });
 };

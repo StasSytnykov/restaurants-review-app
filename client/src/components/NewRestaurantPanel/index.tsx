@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { Loader2 } from "lucide-react";
 import { addRestaurants } from "@/api/restaurantsAPI.ts";
-import { useHandleBasicDataOfRestaurant } from "@/hooks/useHandleBasicDataOfRestaurant.tsx";
+import { useHandleBasicDataOfRestaurant } from "@/hooks/useHandleBasicDataOfRestaurant.ts";
 import { Button } from "@/components/ui/button.tsx";
 import { FormContent } from "@/components/FormContent";
 import { Restaurant } from "@/Types";

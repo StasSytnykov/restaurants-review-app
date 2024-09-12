@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { updateRestaurants } from "@/api/restaurantsAPI.ts";
-import { useHandleBasicDataOfRestaurant } from "@/hooks/useHandleBasicDataOfRestaurant.tsx";
+import { useHandleBasicDataOfRestaurant } from "@/hooks/useHandleBasicDataOfRestaurant.ts";
 import { FormContent } from "@/components/FormContent";
 import { Button } from "@/components/ui/button";
 import {

@@ -1,14 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUserStore } from "@/store/user.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { useLogout } from "@/hooks/useLogout.ts";
 
 export const Header = () => {
-  const navigate = useNavigate();
-  const { user, logout } = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
+  const userLogout = useLogout();
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
+  const handleLogout = async () => {
+    await userLogout();
   };
 
   return (
