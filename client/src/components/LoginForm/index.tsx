@@ -15,6 +15,7 @@ import { InputWithLabel } from "@/components/InputWithLabel";
 import { LoginUser, loginUser } from "@/api/authApi.ts";
 import { useUserStore } from "@/store/user.tsx";
 import { LoaderButton } from "@/components/LoaderButton";
+import { Checkbox } from "@/components/ui/checkbox.tsx";
 
 interface LoginPayload {
   userName: string;
@@ -22,10 +23,11 @@ interface LoginPayload {
 }
 
 export const LoginForm = () => {
-  const { login } = useUserStore((state) => state);
+  const { login, setPersist } = useUserStore((state) => state);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isTrust, setIsTrust] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -39,6 +41,7 @@ export const LoginForm = () => {
     },
     onSuccess: (data) => {
       login({ userName: userName, accessToken: data.accessToken });
+      setPersist(isTrust);
       navigate(from);
     },
     onError: (error) => {
@@ -51,6 +54,7 @@ export const LoginForm = () => {
       return setError("Login failed");
     },
   });
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError("");
@@ -92,6 +96,21 @@ export const LoginForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               id="password"
             />
+          </div>
+          <div className="items-center flex space-x-2">
+            <Checkbox
+              id="persist"
+              onCheckedChange={() => {
+                setIsTrust((prevState) => !prevState);
+              }}
+              checked={isTrust}
+            />
+            <label
+              htmlFor="persist"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Trust this device
+            </label>
           </div>
           {error && (
             <Alert variant="destructive">

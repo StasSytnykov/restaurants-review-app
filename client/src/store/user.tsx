@@ -15,8 +15,14 @@ interface UserStore {
 
 export const useUserStore = create<UserStore>()((set) => ({
   user: null,
-  persist: JSON.parse(localStorage.getItem("persist") || "true"),
+  persist: JSON.parse(localStorage.getItem("persist") || "false"),
   login: (user: User) => set(() => ({ user })),
   logout: () => set(() => ({ user: null })),
-  setPersist: (persist) => set(() => ({ persist })),
+  setPersist: (persist) =>
+    set(() => {
+      localStorage.setItem("persist", JSON.stringify(persist));
+      return {
+        persist,
+      };
+    }),
 }));
