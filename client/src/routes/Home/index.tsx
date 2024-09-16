@@ -4,10 +4,10 @@ import { RestaurantTable } from "@/components/RestaurantTable";
 export const Home = () => {
   return (
     <>
-      <section>
+      <section className="container">
         <NewRestaurantPanel />
       </section>
-      <section>
+      <section className="container">
         <RestaurantTable />
       </section>
     </>

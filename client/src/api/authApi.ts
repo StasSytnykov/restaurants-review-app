@@ -11,12 +11,6 @@ export interface LoginUser {
   accessToken: string;
 }
 
-export interface LogoutUser {
-  message: string;
-  success: string;
-  accessToken: string;
-}
-
 export const registerUser = async (
   userName: string,
   userPass: string,
